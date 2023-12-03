@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+  
+{% block title %}Add New Employee Records{% endblock title %}
+  
+{% block content %}
+<div class="col-md-12">    
+    <form method="GET" class="post-form" action="/addnew">  
+    {% csrf_token %}  
+    <div class="container">  
+        <div class="col-12">  
+        <h3 style="color:black">Enter Details</h3>  
+        </div>    
+     
+        <div class="mb-3"> 
+            <label style="color:black">Name:</label>  
+            {{ form.name }}   
+        </div> 
+        <div class="mb-3"> 
+            <label style="color:black">Email:</label>  
+            {{ form.email }}   
+        </div>  
+        <div class="mb-3"> 
+            <label style="color:black">Contact:</label>  
+            {{ form.contact }}   
+        </div>
+        <div class="mb-3"> 
+            <button type="submit" class="btn btn-primary" style="background-color:rgb(240, 82, 82);color:black">Submit</button>    
+        </div> 
+    </div>  
+    </form>  
+</div> 
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Records{% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <span><a href="/addnew" class="btn btn-primary" style="background-color:rgb(23,23,23)">Add Record</a></span>
+    <br>
+    <span>
+        <br>
+        <form class="d-flex" role="search" action="{% url 'search' %}">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="qry" style="width: 300px;">
+            <button class="btn btn-primary" type="submit" style="background-color:rgb(23,23,23);color:white">Search</button>
+          </form>
+    </span>
+    <div class="table-responsive">
+        <br>
+        <br>
+        <table id="bootstrapdatatable" class="table table-striped table-bordered" width="100%">
+            <br>
+            <thead style="background-color: rgb(23,23,23) ">
+
+                <th><input type="checkbox" id="checkall" /></th>
+                <th style="color:white;">ID</th>
+
+                <th style="color:white;">Employee Name</th>
+                <th style="color:white;">Employee Email</th>
+                <th style="color:white;">Employee Contact</th>
+                <th style="color:white;">Action</th>
+                <th style="color:white;display: none;">Delete</th>
+            </thead>
+            <tbody>
+                <form action="{% url 'cancel_allrecord' %}" method="post">
+                    {% for employee in employees %}
+                    <tr style="background-color: rgb(23, 23, 23)">
+                        <td>
+
+                            {% csrf_token %}
+                            <input name="selected_enteries" value="{{ employee.id }}" type="checkbox"
+                                class="checkthis" />
+
+
+
+                        </td>
+                        <td style="color:white; font-family:  Times New Roman, Times, serif;">{{ employee.id }}</td>
+                        <td style="color:white; font-family: Times New Roman, Times, serif;">{{ employee.name }}</td>
+                        <td style="color:white">{{ employee.email }}</td>
+                        <td style="color:white">{{ employee.contact }}</td>
+                        <!--  -->
+                        <td><a href="{% url 'edit' employee.id %}" class="btn btn-primary"
+                                style="background-color:rgb(134, 229, 250);color:black">Edit</a>
+                        <a href="{% url 'delete' employee.id %}" class="btn btn-danger"
+                                style="background-color:rgb(240, 82, 82);color:black">Delete</a></td>
+
+
+
+                        <!--  -->
+
+                    </tr>
+                    {% endfor %}
+                    <button type="submit">delete All</button>
+                </form>
+            </tbody>
+        </table>
+        <!-- pagination ka logic -->
+        <br>
+        <div class="pagination">
+            <span class="step-links">
+              {% if employees.has_previous %}
+                <a href="?page=1"  style="color: white;background-color: black;padding: 8px;text-decoration: none;">&laquo; first</a>
+                <a href="?page={{ employees.previous_page_number }}"  style="color: white;background-color: black;padding: 8px;text-decoration: none;">previous</a>
+              {% endif %}
+          
+              <span class="current"  style="color: white;background-color: black;padding: 8px;text-decoration: none;">
+                Page {{ employees.number }} of {{ employees.paginator.num_pages }}.
+              </span>
+          
+              {% if employees.has_next %}
+                <a href="?page={{ employees.next_page_number }}" style="color: white;background-color: black;padding: 8px;text-decoration: none;">next</a>
+                <a href="?page={{ employees.paginator.num_pages }}"  style="color: white;background-color: black;padding: 8px;text-decoration: none;">last &raquo;</a>
+              {% endif %}
+            </span>
+          </div>
+    </div>
+</div>
+{% endblock content %}
